@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->unsignedInteger('quantity')->default(0);
+            $table->decimal('price', 10, 2)->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
