@@ -26,9 +26,9 @@
                             class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                             Add Product
                         </a>
-                         <form method="GET" action="{{ route('product.search') }}" class="input-group">
-                            <input type="text" name="search" placeholder="Search..." value="{{ request()->query('search') }}" class="form-control rounded-md shadow-sm">
-                            <button type="submit" class="px-2 py-2 bg-blue-500 rounded-md text-white text-sm shadow-md">Search</button>
+                         <form method="GET" action="{{ route('product.search') }}">
+                            <x-text-input type="text" name="search" value="{{ request()->query('search') }}"/>
+                            <x-primary-button type="submit" >Search</x-primary-button>
                         </form>
 
                     </div>
@@ -76,23 +76,22 @@
                                             <div x-data="{ open: false, productId: null, productName: '' }" class="flex justify-start gap-6">
                                                 <a href="{{ URL::signedRoute('product.edit', ['product_id' => $product->id]) }}"
                                                     class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">Edit</a>
-                                                <button
-                                                    @click="open = true; productId={{ $product->id }}; productName='{{ $product->product_name }}'"
-                                                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                <x-danger-button
+                                                    @click="open = true; productId={{ $product->id }}; productName='{{ $product->product_name }}'">
                                                     Delete
-                                                </button>
+                                                </x-danger-button>
 
                                                 {{-- Confirmation Modal --}}
                                                 <div x-cloak x-show="open"
-                                                    class="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
-                                                    <div class="bg-gray-800 dark:bg-gray-200 p-6 rounded-lg md-w-3/4">
+                                                    class="fixed inset-0 flex items-center justify-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 bg-opacity-50 dark:bg-opacity-50">
+                                                    <div class="bg-gray-50 dark:bg-gray-800 dark:text-gray-400 text-gray-700 p-6 rounded-lg md-w-3/4 shadow-md">
                                                         <h3 class="text-lg font-semibold mb-4">Are you sure you
                                                             want to delete </span><span class="text-red-500"
                                                                 x-text="productName"></span> ?</h3>
                                                         <div class="flex justify-between">
                                                             <!-- Cancel Button -->
-                                                            <button @click="open = false"
-                                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</button>
+                                                            <x-primary-button @click="open = false"
+                                                                class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</x-primary-button>
                                                             <!-- Delete Button -->
                                                             <form
                                                                 action="{{ route('product.delete', ['product_id' => $product->id]) }}"
@@ -101,8 +100,8 @@
                                                                 @method('DELETE')
                                                                 {{-- <input type="hidden" name="student_id"
                                                                             :value="studentId"> --}}
-                                                                <button type="submit"
-                                                                    class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                                                                <x-danger-button type="submit"
+                                                                    class="bg-red-500 text-white px-4 py-2 rounded">Delete</x-danger-button>
                                                             </form>
                                                         </div>
                                                     </div> <!-- Modal Body -->

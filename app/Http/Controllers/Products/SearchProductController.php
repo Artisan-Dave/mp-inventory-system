@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Products;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Exception;
 
 class SearchProductController extends Controller
 {
@@ -26,7 +27,7 @@ class SearchProductController extends Controller
                 $products = Product::paginate(10);
             }
         }
-        catch (\Exception $e) {
+        catch ( Exception $e) {
             session()->flash('error','Something went wrong!');
             return redirect(route('product.index'));
         }
