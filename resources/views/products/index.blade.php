@@ -21,7 +21,7 @@
                     @endif
                 </div>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <div class="py-3 px-6 w-full flex justify-between">
+                    <div class="py-3 px-6 w-auto md:flex justify-between">
                         <a href="{{ route('product.add') }}"
                             class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                             Add Product
@@ -92,6 +92,7 @@
                                                             <!-- Cancel Button -->
                                                             <x-primary-button @click="open = false"
                                                                 class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</x-primary-button>
+
                                                             <!-- Delete Button -->
                                                             <form
                                                                 action="{{ route('product.delete', ['product_id' => $product->id]) }}"
@@ -110,10 +111,10 @@
                                         </td>
                                     @endif
                                 </tr>
-                            @empty
-                                <div>
-                                    <h2 class="flex justify-center bg-gray-200">No record found</h2>
-                                </div>
+                                @empty
+                                    <div>
+                                        <h2 class="flex justify-center bg-gray-200">No record found</h2>
+                                    </div>
                             @endforelse
                             <div class="py-3 px-6">
                                 {{$products->appends(['search' => request()->search])->links()}}

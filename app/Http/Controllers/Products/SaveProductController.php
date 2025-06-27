@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SaveProductController extends Controller
 {
@@ -33,22 +35,22 @@ class SaveProductController extends Controller
             }
 
             // Start a database transaction (optional but recommended)
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             $newProduct = Product::create($data);
 
             // Commit the transaction (if using transactions)
-            \DB::commit();
+            DB::commit();
 
             session()->flash('success', 'Product added successfully!');
             return redirect(route('product.index'));
 
         } catch (Exception $e) {
             // Roll back the transaction (if using transactions)
-            \DB::rollBack();
+            DB::rollBack();
 
             // Log the error (optional)
-            \Log::error('Adding product error: ' . $e->getMessage());
+            Log::error('Adding product error: ' . $e->getMessage());
 
             // Flash an error message and redirect back
             session()->flash('error', 'An error occurred while processing. Please try again.');

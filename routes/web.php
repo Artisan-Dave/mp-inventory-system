@@ -8,6 +8,9 @@ use App\Http\Controllers\Products\SearchProductController;
 use App\Http\Controllers\Products\ShowAllProductsController;
 use App\Http\Controllers\Products\UpdateProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Sales\AddSaleController;
+use App\Http\Controllers\Sales\SaveSaleController;
+use App\Http\Controllers\Sales\ShowAllSalesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,7 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('products/', SaveProductController::class)->name('product.save');
     Route::get('/products/search', SearchProductController::class)->name('product.search');
 
-
+    Route::get('/sales/index', ShowAllSalesController::class)->name('sale.index');
+    Route::get('/sales/add', AddSaleController::class)->name('sale.add');
+    Route::post('/sales',SaveSaleController::class)->name('sale.save');
 
 });
 
