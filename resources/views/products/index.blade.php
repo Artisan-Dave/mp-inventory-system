@@ -71,7 +71,7 @@
                                     <td class="px-6 py-4">
                                         {{ $product->price }}
                                     </td>
-                                    @if (auth()->user()->usertype !== 'user')
+                                    @if (auth()->user()->usertype == 'admin')
                                         <td class="px-6 py-4 w-auto">
                                             <div x-data="{ open: false, productId: null, productName: '' }" class="flex justify-start gap-6">
                                                 <a href="{{ URL::signedRoute('product.edit', ['product_id' => $product->id]) }}"

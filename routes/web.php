@@ -10,6 +10,7 @@ use App\Http\Controllers\Products\UpdateProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Sales\AddSaleController;
 use App\Http\Controllers\Sales\RecordSaleSearchProductController;
+use App\Http\Controllers\Sales\RefundController;
 use App\Http\Controllers\Sales\SaveSaleController;
 use App\Http\Controllers\Sales\SearchSaleController;
 use App\Http\Controllers\Sales\ShowAllSalesController;
@@ -41,7 +42,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/sales/index', ShowAllSalesController::class)->name('sale.index');
     Route::get('/sales/add', AddSaleController::class)->name('sale.add');
-    Route::post('/sales',SaveSaleController::class)->name('sale.save');
+    Route::post('/sales', SaveSaleController::class)->name('sale.save');
     Route::get('/sales/search', SearchSaleController::class)->name('sale.search');
 
 

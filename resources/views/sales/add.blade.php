@@ -22,7 +22,7 @@
                         <x-input-error :messages="$errors->get('customer_name')" class="mt-2" />
                     </div>
 
-                    <div class="w-auto overflow-x-auto mt-4 mx-auto">
+                    <div class="w-auto overflow-x-auto mt-4 mx-auto overflow-y-scroll">
                         <h4 class="text-gray-900 dark:text-white">Products:</h4>
                         <div class="w-full">
                             @foreach ($products as $product)
@@ -33,14 +33,17 @@
                                         in
                                         stock)
                                     </label>
-                                    <x-text-input type="number" name="products[{{ $product->id }}][quantity]"
-                                        min="0" placeholder="Qty" />
-                                    <x-text-input type="hidden" name="products[{{ $product->id }}][price]"
-                                        value="{{ $product->price }}" />
+                                    <x-text-input class="quantity-input" type="number"
+                                        name="products[{{ $product->id }}][quantity]" min="0" placeholder="Qty"
+                                        data-id="{{ $product->id }}" />
+                                    <x-text-input class="price-input" type="hidden"
+                                        name="products[{{ $product->id }}][price]" value="{{ $product->price }}"
+                                        data-id="{{ $product->id }}" />
                                 </div>
                             @endforeach
                         </div>
                     </div>
+                    <div id="totalAmount" class="mt-4 text-lg font-bold text-green-600">Total:0.00</div>
                     <div class="flex items-center justify-center mt-4 p-6">
                         <x-primary-button class="ms-4">
                             {{ __('Submit Sale') }}
@@ -50,6 +53,7 @@
             </div>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('searchInput');
@@ -66,6 +70,37 @@
                     });
                 }, 300);
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quantityInputs = document.querySelectorAll('.quantity-input');
+            const totalAmountDisplay = document.getElementById('totalAmount');
+
+            function updateTotal() {
+                let total = 0;
+                            
+                quantityInputs.forEach(input => {
+                    const productId = input.dataset.id;
+                    const quantity = parseFloat(input.value) || 0;
+
+                    const priceInput = document.querySelector(`.price-input[data-id="${productId}"]`);
+                    const price = parseFloat(priceInput.value) || 0;
+
+                    if (quantity > 0) {
+                        total += quantity * price;
+                    }
+                });
+
+                totalAmountDisplay.textContent = `Total: ${total.toFixed(2)}`;
+            }
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('input', updateTotal);
+            });
+
+            updateTotal();
         });
     </script>
 </x-app-layout>
