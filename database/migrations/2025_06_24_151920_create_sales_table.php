@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('customer_name')->nullable();
             $table->decimal('total_amount',10,2)->default(0);
+            $table->string('refunded')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

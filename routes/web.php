@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Sales\AddSaleController;
 use App\Http\Controllers\Sales\RecordSaleSearchProductController;
 use App\Http\Controllers\Sales\RefundController;
+use App\Http\Controllers\Sales\RefundSaleController;
 use App\Http\Controllers\Sales\SaveSaleController;
 use App\Http\Controllers\Sales\SearchSaleController;
 use App\Http\Controllers\Sales\ShowAllSalesController;
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/products/edit/{product_id}', EditProductController::class)->name('product.edit')->middleware('signed');
         Route::post('/products/edit/{product_id}', UpdateProductController::class);
         Route::delete('/products/delete/{product_id}', DeleteProductController::class)->name('product.delete');
+        
+        Route::get('/sales/index/{sale_id}', RefundSaleController::class)->name('sale.refund');
     });
 
     Route::get('/products/index', ShowAllProductsController::class)->name('product.index');

@@ -51,7 +51,35 @@
                             @endforeach
                         </ul>
                         <!-- TODO: Make a refund button -->
-                        <a href="" onclick="show()">Refund</a>
+                        <div x-data="{ open: false, saleId:null}" class="mt-5 position-relative">
+                            <x-danger-button @click="open = true; saleId={{ $sale->id }} {{ $sale->refunded ? 'disabled' : '' }}">
+                                Refund
+                            </x-danger-button>
+
+                            <!-- Refund Modal -->
+                            <div x-cloak x-show="open"
+                                class="fixed inset-0 flex items-center justify-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 bg-opacity-50 dark:bg-opacity-50">
+                                <div
+                                    class="bg-gray-50 dark:bg-gray-800 dark:text-gray-400 text-gray-700 p-6 rounded-lg md-w-3/4 shadow-md">
+                                    <h3 class="text-lg font-semibold mb-4">Are you sure you
+                                        want to refund </span><span class="text-red-500" x-text=""></span> ?
+                                    </h3>
+                                    <div class="flex justify-between">
+                                        <!-- Cancel Button -->
+                                        <x-primary-button @click="open = false"
+                                            class="bg-gray-300 text-gray-700 px-4 py-2 rounded">Cancel</x-primary-button>
+
+                                        <!-- Delete Button -->
+                                        <form action="{{ route('sale.refund', ['sale_id' => $sale->id]) }}"
+                                            method="POST" class="inline">
+                                            @csrf
+                                            @method('GET')
+                                            <x-danger-button type="submit">Yes</x-danger-button>
+                                        </form>
+                                    </div>
+                                </div> <!-- Modal Body -->
+                            </div>
+                        </div>
                     </div>
                 @endforeach
             </div>
