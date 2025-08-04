@@ -35,7 +35,7 @@
                                     </label>
                                     <x-text-input class="quantity-input" type="number"
                                         name="products[{{ $product->id }}][quantity]" min="0" placeholder="Qty"
-                                        data-id="{{ $product->id }}" />
+                                        data-id="{{ $product->id }}" data-name="{{ $product->product_name }}" />
                                     <x-text-input class="price-input" type="hidden"
                                         name="products[{{ $product->id }}][price]" value="{{ $product->price }}"
                                         data-id="{{ $product->id }}" />
@@ -43,6 +43,9 @@
                             @endforeach
                         </div>
                     </div>
+                    
+                    <div id="productSummary" class="mb-2 text-md text-green-600"></div>
+                    <div id="totalItems" class="mt-4 text-lg font-bold text-green-600">Total Items: 0</div>
                     <div id="totalAmount" class="mt-4 text-lg font-bold text-green-600">Total:0.00</div>
                     <div class="flex items-center justify-center mt-4 p-6">
                         <x-primary-button class="ms-4">
@@ -77,23 +80,37 @@
         document.addEventListener('DOMContentLoaded', () => {
             const quantityInputs = document.querySelectorAll('.quantity-input');
             const totalAmountDisplay = document.getElementById('totalAmount');
+            const productSummary = document.getElementById('productSummary');
+            const totalItemsDisplay = document.getElementById('totalItems');
 
             function updateTotal() {
                 let total = 0;
+                let summaryHTML = '';
+                let totalItems = 0;
+               
+                
                             
                 quantityInputs.forEach(input => {
                     const productId = input.dataset.id;
                     const quantity = parseFloat(input.value) || 0;
+                    const name = input.dataset.name || `Product ${productId}`;
 
                     const priceInput = document.querySelector(`.price-input[data-id="${productId}"]`);
                     const price = parseFloat(priceInput.value) || 0;
 
                     if (quantity > 0) {
-                        total += quantity * price;
+                        const subtotal = quantity * price;
+                        total += subtotal;
+                        totalItems += quantity;
+
+                        summaryHTML += `<div>${name}: ${quantity} × ${price} = ${subtotal.toFixed(2)}</div>`;
                     }
                 });
 
+                productSummary.innerHTML = summaryHTML || '<div class="mt-4 text-md font-bold text-red-600">No products selected.</div>';
                 totalAmountDisplay.textContent = `Total: ${total.toFixed(2)}`;
+                totalItemsDisplay.textContent = `Items: ${totalItems}`;
+
             }
 
             quantityInputs.forEach(input => {
@@ -101,6 +118,7 @@
             });
 
             updateTotal();
+            
         });
     </script>
 </x-app-layout>
