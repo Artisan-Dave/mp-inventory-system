@@ -26,7 +26,7 @@
                         <h4 class="text-gray-900 dark:text-white">Products:</h4>
                         <div class="w-full">
                             @foreach ($products as $product)
-                                <div class="product-item px-6 py-1 text-gray-900 whitespace-nowrap dark:text-white"
+                                <div class="product-item px-6 py-1 text-gray-900 whitespace-nowrap dark:text-white hidden"
                                     data-name="{{ strtolower($product->product_name) }}">
                                     <label>{{ $product->product_name }} - ₱{{ $product->price }}
                                         ({{ $product->quantity }}
@@ -69,7 +69,8 @@
                     const keyword = searchInput.value.toLowerCase();
                     items.forEach(item => {
                         const name = item.getAttribute('data-name');
-                        item.style.display = name.includes(keyword) ? '' : 'none';
+                        item.classList.toggle("hidden", !keyword || !name.includes(keyword));
+
                     });
                 }, 300);
             });
@@ -88,8 +89,7 @@
                 let summaryHTML = '';
                 let totalItems = 0;
                
-                
-                            
+                  
                 quantityInputs.forEach(input => {
                     const productId = input.dataset.id;
                     const quantity = parseFloat(input.value) || 0;
